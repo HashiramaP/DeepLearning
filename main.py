@@ -35,3 +35,20 @@ def update(dW, db, W, b, learning_rate):
     W = W - learning_rate*dW
     b = b - learning_rate*db
     return (W, b)
+
+def artifical_neuron(X, y, learning_rate=0.1, n_iter = 100):
+    # Initalisation
+    W, b = initalisation(X)
+
+    Loss = []
+
+    for i in range(n_iter):
+        A = model(X,W, b)
+        Loss.append(log_loss(A, y))
+        dW, db = gradient(A, X, y)
+        W, b = update(dW, db, W, b, learning_rate)
+
+    plt.plot(Loss)
+    plt.show()
+
+artifical_neuron(X, y)
