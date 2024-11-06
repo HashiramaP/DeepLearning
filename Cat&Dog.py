@@ -2,7 +2,6 @@ from utilities import *
 import matplotlib.pyplot as plt
 from main import *
 
-
 x_train, y_train, x_test, y_test = load_data()
 
 # Normalizing the data
