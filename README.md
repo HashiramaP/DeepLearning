@@ -80,8 +80,8 @@
 
 # Logic of the code
 
-![Alt text](./logique.png)
+![Alt text](./image/logique.png)
 
 # Important definitons of functions I will be using
 
-![Alt text](./functions.png)
+![Alt text](./image/functions.png)
