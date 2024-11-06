@@ -4,13 +4,13 @@
 
 Simplest form of a neuron
 
-> Takes in a weighted (w) sum (x) + a bias (b) as a input and returns output Z **(linear function)**
+> Takes in a weighted (w) sum (x) + a bias (b) as a input and returns output Z **(linear function)**.
 
 #### Simply put, multiple perceptron linked together form a Neural Network
 
 ### Activation function
 
-Gives you the probability of an output z from linear function being correct
+Gives you the probability of an output z from linear function being correct.
 
 ### Sigmoid Function (activation function)
 
@@ -18,7 +18,7 @@ The sigmoid function gives the probability that the input belongs to the positiv
 
 > It maps any input z to a value between 0 and 1, interpreting it as the probability that the output is 1.
 >
-> The closer we are to 0.5, the model is uncertain of which class (0 or 1) the input z belongs to
+> The closer we are to 0.5, the model is uncertain of which class (0 or 1) the input z belongs to.
 
 ## So a Neuron is an ouput Z and a probability of Z being correct
 
@@ -26,9 +26,10 @@ The sigmoid function gives the probability that the input belongs to the positiv
 
 A cost function is the difference between the model's output when it has real data as a input vs the actual output of the real data.
 
-> Multiply the probability of each output being correct (activation function) together **->** converges to 0 therefore we use logarithmic function
+> Multiply the probability of each output being correct (activation function) together **->** converges to 0 therefore we use logarithmic function.
 >
 > Log of all these will not give the same result, but it will keep the same order as the logarithmic function is **monotonically increasing**.
+>
 > Log Loss function
 
 ### Gradient Descent
@@ -36,10 +37,11 @@ A cost function is the difference between the model's output when it has real da
 MLE (Maximal Likelihood Estimation) is not a single function.
 
 > We need to take our linear function and adjust our **W** parameters and our bias (b) until we minimise our errors (until it is the most likely)(Log Loss)
-> We need to determine how adjusting our W parameters affect our likelihood which is why we need the **Gradient**
+>
+> We need to determine how adjusting our W parameters affect our likelihood which is why we need the **Gradient**.
 
 **The Gradient is the derivative of the Cost function**  
-The function must be convex, meaning that we dont have local minimums
+The function must be convex, meaning that we dont have local minimums.
 
 > The derivative of the loss with respect to W (weights),  
 > The derivative of the loss with respect to b (bias).
@@ -47,13 +49,20 @@ The function must be convex, meaning that we dont have local minimums
 ## Normalisation of data
 
 Put all the variables of the data on the same scale so that bigger values dont outweight smaller ones.  
-If x2 is bigger than x1 in the linear function, then adjusting the weight of x1 will have a lesser impact than adjusting the wieght of x2
+If x2 is bigger than x1 in the linear function, then adjusting the weight of x1 will have a lesser impact than adjusting the wieght of x2.
 
 > In order to have a good convergence in the Gradient descent function, we want a cost function that evolves similarly on all the weights.
 
 ## Overfitting
 
-Overfitting happens when a model learns the details and noise of the training data too well, making it perform poorly on new, unseen data.
+Overfitting happens when a model learns the details and noise of the training data too well, making it perform poorly on new, unseen data.  
+Which can result in the **curse of dimensionality**.
+
+### Curse of dimensionality
+
+When the amount of variables increases, the volume of the space grows exponentially, meaning data points become spread out apart and are often too far apart to form meaningful relationships.
+
+> This sparsity makes it difficult for models to generalize effectively, as they struggle to identify patterns within the vast, mostly empty space. This can lead to overfitting, where the model "over-adapts" to the few data points it has seen, rather than finding generalizable insights.
 
 # Vectorisation and Matrix
 
