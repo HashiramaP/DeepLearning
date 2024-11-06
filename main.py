@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import log_loss  # Importing log_loss from sklearn
 from sklearn.metrics import accuracy_score
+from tqdm import tqdm
 
 def initalisation(X):
     W = np.random.randn(X.shape[1], 1)
@@ -31,28 +32,48 @@ def predict(X, W, b):
     A = model(X, W, b)
     return A >= 0.5
 
-def artificial_neuron(X, y, learning_rate=0.1, n_iter = 100):
+def artificial_neuron(x_train, y_train, x_test, y_test, learning_rate=0.1, n_iter = 100):
     # Initalisation
-    W, b = initalisation(X)
+    W, b = initalisation(x_train)
 
-    Loss = []
+    train_loss = []
+    train_acc = []
+    test_loss = []
+    test_acc = []
 
-    for i in range(n_iter):
-        A = model(X,W, b)
-        loss = log_loss(y, A)
-        Loss.append(loss)
-        dW, db = gradient(A, X, y)
+    for i in tqdm(range(n_iter)):
+
+        A = model(x_train,W, b)
+
+        if n_iter % 10 == 0:
+            
+            # Training Loss and Accuracy
+            train_loss.append(log_loss(y_train, A))
+
+            y_pred = predict(x_train, W, b)
+            train_acc.append(accuracy_score(y_train, y_pred))
+
+            # Testing Loss and Accuracy
+            A_test = model(x_test, W, b)
+            test_loss.append(log_loss(y_test, A_test))
+            y_pred_test = predict(x_test, W, b)
+            test_acc.append(accuracy_score(y_test, y_pred_test))
+
+
+
+        dW, db = gradient(A, x_train, y_train)
         W, b = update(dW, db, W, b, learning_rate)
 
-    y_pred = predict(X, W, b)
-    accuracy = accuracy_score(y, y_pred)
-    print(f'Accuracy: {accuracy}')
+    plt.figure(figsize=(12, 4))
+    plt.subplot(1, 2, 1)
+    plt.plot(train_loss, label='train')
+    plt.plot(test_loss, label='test')
+    plt.legend()
+    plt.subplot(1, 2, 2)
+    plt.plot(train_acc, label='train')
+    plt.plot(test_acc, label='test')
+    plt.legend()
+    plt.show()
 
-    # plotting the loss
-    # plt.plot(Loss)
-    # plt.xlabel('Iteration')
-    # plt.ylabel('Log Loss')
-    # plt.title('Log Loss vs Iteration')
-    # plt.show()
 
     return (W, b)
