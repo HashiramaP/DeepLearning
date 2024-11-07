@@ -10,7 +10,7 @@ Simplest form of a neuron
 
 ### Activation function
 
-Gives you the probability of an output z from linear function being correct.
+Last layer gives you the probability of an output z from linear function being correct.
 
 ### Sigmoid Function (activation function)
 
@@ -20,9 +20,9 @@ The sigmoid function gives the probability that the input belongs to the positiv
 >
 > The closer we are to 0.5, the model is uncertain of which class (0 or 1) the input z belongs to.
 
-## So a Neuron is an ouput Z and a probability of Z being correct
+### So a Neuron is an ouput Z and a probability of Z being correct
 
-### Cost Function
+### Cost Function (also called Loss Function)
 
 A cost function is the difference between the model's output when it has real data as a input vs the actual output of the real data.
 
@@ -32,7 +32,7 @@ A cost function is the difference between the model's output when it has real da
 >
 > Log Loss function
 
-### Gradient Descent
+## Gradient Descent
 
 MLE (Maximal Likelihood Estimation) is not a single function.
 
@@ -41,10 +41,20 @@ MLE (Maximal Likelihood Estimation) is not a single function.
 > We need to determine how adjusting our W parameters affect our likelihood which is why we need the **Gradient**.
 
 **The Gradient is the derivative of the Cost function**  
-The function must be convex, meaning that we dont have local minimums.
+The function must be convex, meaning that we dont have local minimums with respect to all tunable parameters.
 
 > The derivative of the loss with respect to W (weights),  
 > The derivative of the loss with respect to b (bias).
+
+### Important
+
+In order to maximize a function f(x), you compute df/dx and make x += df/dx
+
+> **This is always true; when you add a variable's derivative to it, you always make the output function's value bigger**
+>
+> **In contrast, when you substract a variable's derivative to it, you always make the output function's value smaller, hence you minimise the function**
+
+Note : You multiply the derivative by a learning rate to avoid substracting from X a big value so that you don't diverge.
 
 ## Normalisation of data
 
@@ -64,12 +74,22 @@ When the amount of variables increases, the volume of the space grows exponentia
 
 > This sparsity makes it difficult for models to generalize effectively, as they struggle to identify patterns within the vast, mostly empty space. This can lead to overfitting, where the model "over-adapts" to the few data points it has seen, rather than finding generalizable insights.
 
+# Neural Networks
+
+A neural network (NN) is one or multiple layers of neurons where each neuron in a layer receives the same inputs but applies its own unique weight to them.
+
+Only the first layer directly takes in the original input features X. Each subsequent layer then takes the activations (outputs) from the previous layer as its input.
+
+### Forward propagation
+
 # Vectorisation and Matrix
 
 ## X (Input Matrix)
 
 > X is the matrix storing all the different variables of the data set  
 > **(m x n)** Matrix where m is the number of data set and n the number of variables
+>
+> There will be a different matrix for each layers
 
 ## Y (Real data output Matrix)
 
@@ -79,12 +99,31 @@ When the amount of variables increases, the volume of the space grows exponentia
 ## W (Weight Matrix)
 
 > W is the Matrix storing all the weights of the NN  
-> **(n x k)** Vector where n is the amount of input features (variables) from x and k is the number of neurons in the layer
+> **(n x k)** Matrix where n is the amount of input features (variables) from x and k is the number of neurons in the layer
+
+Each element
+𝑊
+[
+𝑖
+,
+𝑗
+]
+represents the weight for feature
+𝑖
+going to neuron
+𝑗
 
 ## b (bias)
 
-> b is the bias vector  
-> **(k x 1)** where k is the amount of neurons
+> b is the bias matrix  
+> **(1 x K)** where k is the amount of neurons
+
+Each bias element
+𝑏
+𝑗 (where
+𝑗
+is the neuron index) is added to the input sum before applying the activation function for neuron
+𝑗
 
 ## Z (Output Matrix)
 
@@ -95,6 +134,19 @@ When the amount of variables increases, the volume of the space grows exponentia
 
 > A is the matrix storing all the activation output of the neurons for each data set  
 > **(m x k)** Matrix where m is the number of data set and k the number of neurons in the layer
+
+Each element
+𝐴
+[
+𝑖
+,
+𝑗
+]
+represents the activation output (after applying the activation function) of neuron
+𝑗
+for sample
+𝑖
+.
 
 ## dW (derivative of the Loss function in respect to weight)
 
