@@ -88,6 +88,8 @@ Only the first layer directly takes in the original input features X. Each subse
 
 > X is the matrix storing all the different variables of the data set  
 > **(m x n)** Matrix where m is the number of data set and n the number of variables
+>
+> There will be a different matrix for each layers
 
 ## Y (Real data output Matrix)
 
@@ -97,12 +99,31 @@ Only the first layer directly takes in the original input features X. Each subse
 ## W (Weight Matrix)
 
 > W is the Matrix storing all the weights of the NN  
-> **(n x k)** Vector where n is the amount of input features (variables) from x and k is the number of neurons in the layer
+> **(n x k)** Matrix where n is the amount of input features (variables) from x and k is the number of neurons in the layer
+
+Each element
+𝑊
+[
+𝑖
+,
+𝑗
+]
+represents the weight for feature
+𝑖
+going to neuron
+𝑗
 
 ## b (bias)
 
-> b is the bias vector  
-> **(k x 1)** where k is the amount of neurons
+> b is the bias matrix  
+> **(1 x K)** where k is the amount of neurons
+
+Each bias element
+𝑏
+𝑗 (where
+𝑗
+is the neuron index) is added to the input sum before applying the activation function for neuron
+𝑗
 
 ## Z (Output Matrix)
 
