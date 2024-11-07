@@ -22,10 +22,6 @@ The sigmoid function gives the probability that the input belongs to the positiv
 
 ### So a Neuron is an ouput Z and a probability of Z being correct
 
-## Neural Networks
-
-A neural network (NN) is one or multiple layers of neurons where each neuron in a layer receives the same inputs but applies its own unique weight to them.
-
 ### Cost Function (also called Loss Function)
 
 A cost function is the difference between the model's output when it has real data as a input vs the actual output of the real data.
@@ -77,6 +73,14 @@ Which can result in the **curse of dimensionality**.
 When the amount of variables increases, the volume of the space grows exponentially, meaning data points become spread out apart and are often too far apart to form meaningful relationships.
 
 > This sparsity makes it difficult for models to generalize effectively, as they struggle to identify patterns within the vast, mostly empty space. This can lead to overfitting, where the model "over-adapts" to the few data points it has seen, rather than finding generalizable insights.
+
+# Neural Networks
+
+A neural network (NN) is one or multiple layers of neurons where each neuron in a layer receives the same inputs but applies its own unique weight to them.
+
+Only the first layer directly takes in the original input features X. Each subsequent layer then takes the activations (outputs) from the previous layer as its input.
+
+### Forward propagation
 
 # Vectorisation and Matrix
 
