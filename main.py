@@ -10,9 +10,9 @@ X, y = make_blobs(n_samples=3000, centers=2, n_features=2, random_state=0)
 y = y.reshape((y.shape[0], -1))
 
 def initialisation(X):
-    W1 = np.random.randn(X.shape[1], 30)  # Weight matrix for 5 neurons
-    b1 = np.random.randn(1, 30)  # Bias for 5 neurons
-    W2 = np.random.randn(30, 1)  # Weight matrix to single output neuron
+    W1 = np.random.randn(X.shape[1], 3)  # Weight matrix for 5 neurons
+    b1 = np.random.randn(1, 3)  # Bias for 5 neurons
+    W2 = np.random.randn(3, 1)  # Weight matrix to single output neuron
     b2 = np.random.randn(1, 1)  # Bias for output neuron
     return W1, b1, W2, b2
 
@@ -124,7 +124,7 @@ def neural_network(x_train, y_train, learning_rate=0.01, n_iter=1000):
     plt.plot(train_acc, label='accuracy')
     plt.legend()
     plt.show()
-
+    
     return W1, b1, W2, b2
 
 
