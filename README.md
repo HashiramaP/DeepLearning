@@ -164,4 +164,10 @@ for sample
 
 # Important definitons of functions I will be using
 
+## With a single neuron:
+
 ![Alt text](./image/functions.png)
+
+## With a single layer and n neurons
+
+![Alt text](./image/n_neuronsFormula.png)
