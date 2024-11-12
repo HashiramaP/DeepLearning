@@ -164,10 +164,14 @@ for sample
 
 # Important definitons of functions I will be using
 
-## With a single neuron:
+## Initialization of Weights and Bias with multiple layers and neurons
 
-![Alt text](./image/functions.png)
+![Alt text](./image/init.png)
 
-## With a single layer and n neurons
+## Activation Matrix with multiple layers and neurons
 
-![Alt text](./image/n_neuronsFormula.png)
+![Alt text](./image/activation.png)
+
+## Back Propagation with multiple layers and neurons
+
+![Alt text](./image/back_prop.png)

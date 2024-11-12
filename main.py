@@ -3,58 +3,83 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import log_loss, accuracy_score
 from tqdm import tqdm
 
-# Initialization function
-def initialization(layer_dims):
-    params = {}
-    L = len(layer_dims)  # Total number of layers
+def initalisation(n0, n1, n2):
+    W1 = np.random.randn(n1, n0)
+    b1 = np.random.randn(n1, 1)
+    W2 = np.random.randn(n2, n1)
+    b2 = np.random.randn(n2, 1)
 
-    for l in range(1, L):
-        params[f'W{l}'] = np.random.randn(layer_dims[l], layer_dims[l-1])
-        params[f'b{l}'] = np.random.randn(layer_dims[l], 1)
+    params = {
+        'W1': W1,
+        'b1': b1,
+        'W2': W2,
+        'b2': b2
+    } 
+
     return params
 
-# Forward Propagation
 def forward_propagation(X, params):
-    L = len(params) // 2
-    activations = {'A0': X}
 
-    for l in range(1, L + 1):
-        Z = params[f'W{l}'].dot(activations[f'A{l-1}']) + params[f'b{l}']
-        A = 1 / (1 + np.exp(-Z))  # Sigmoid activation
-        activations[f'A{l}'] = A
+    W1 = params['W1']
+    b1 = params['b1']
+    W2 = params['W2']
+    b2 = params['b2']
+
+    #first layer
+    Z1 = W1.dot(X) + b1
+    A1 = 1 / (1 + np.exp(-Z1))
+
+    #second layer
+    Z2 = W2.dot(A1) + b2
+    A2 = 1 / (1 + np.exp(-Z2))
+
+    activations = {
+        'A1': A1,
+        'A2': A2
+    }
 
     return activations
 
-# Loss Function
 def log_losss(A, y):
-    return 1 / len(y) * np.sum(-y * np.log(A) - (1 - y) * np.log(1 - A))
+    return 1/len(y)*np.sum(-y*np.log(A) - (1-y)*np.log(1-A))
 
-# Back Propagation
 def back_propagation(X, y, activations, params):
-    L = len(params) // 2
+
+    A1 = activations['A1']
+    A2 = activations['A2']
+    W2 = params['W2']
+
     m = y.shape[1]
-    grads = {}
+    dZ2 = A2 - y
+    dW2 = 1/m*dZ2.dot(A1.T)
+    db2 = 1/m*np.sum(dZ2, axis=1, keepdims=True)
 
-    # Gradient for the output layer
-    dZ = activations[f'A{L}'] - y
-    grads[f'dW{L}'] = 1/m * dZ.dot(activations[f'A{L-1}'].T)
-    grads[f'db{L}'] = 1/m * np.sum(dZ, axis=1, keepdims=True)
+    dZ1 = W2.T.dot(dZ2)*A1*(1-A1)
+    dW1 = 1/m*dZ1.dot(X.T)
+    db1 = 1/m*np.sum(dZ1, axis=1, keepdims=True)
 
-    # Backpropagate through hidden layers
-    for l in range(L-1, 0, -1):
-        dA = params[f'W{l+1}'].T.dot(dZ)
-        dZ = dA * activations[f'A{l}'] * (1 - activations[f'A{l}'])
-        grads[f'dW{l}'] = 1/m * dZ.dot(activations[f'A{l-1}'].T) if l > 1 else 1/m * dZ.dot(X.T)
-        grads[f'db{l}'] = 1/m * np.sum(dZ, axis=1, keepdims=True)
+    grads = {
+        'dW1': dW1,
+        'db1': db1,
+        'dW2': dW2,
+        'db2': db2
+    }
 
     return grads
 
-# Update Parameters
 def update(grads, params, learning_rate):
-    L = len(params) // 2
-    for l in range(1, L + 1):
-        params[f'W{l}'] -= learning_rate * grads[f'dW{l}']
-        params[f'b{l}'] -= learning_rate * grads[f'db{l}']
+    W1 = W1 - learning_rate*dW1
+    b1 = b1 - learning_rate*db1
+    W2 = W2 - learning_rate*dW2
+    b2 = b2 - learning_rate*db2
+
+    params = {
+        'W1': W1,
+        'b1': b1,
+        'W2': W2,
+        'b2': b2
+    }
+
     return params
 
 # Prediction Function
@@ -63,27 +88,29 @@ def predict(X, params):
     A_final = activations[f'A{len(params) // 2}']
     return A_final >= 0.5
 
-# Neural Network Training Function
-def artificial_neuron(x_train, y_train, layer_dims, learning_rate=0.1, n_iter=100):
-    params = initialization(layer_dims)
+def artificial_neuron(x_train, y_train, n1, learning_rate=0.1, n_iter = 100):
+    # Initalisation
+
+    n0 = x_train.shape[0]
+    n2 = y_train.shape[0]
+
+    params = initalisation(n0, n1, n2)
+
     train_loss = []
     train_acc = []
 
     for i in tqdm(range(n_iter)):
-        # Forward Propagation
+
         activations = forward_propagation(x_train, params)
-        
-        # Back Propagation
         gradients = back_propagation(x_train, y_train, activations, params)
-        
-        # Update Parameters
         params = update(gradients, params, learning_rate)
 
-        if i % 10 == 0:
+
+        if n_iter % 10 == 0:
+            
             # Training Loss and Accuracy
-            A_final = activations[f'A{len(layer_dims) - 1}']
-            train_loss.append(log_loss(y_train, A_final))
+            train_loss.append(log_loss(y_train, activations['A2']))
             y_pred = predict(x_train, params)
             train_acc.append(accuracy_score(y_train.flatten(), y_pred.flatten()))
 
-    return params, train_loss, train_acc
+    return params
